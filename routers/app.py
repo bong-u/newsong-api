@@ -99,7 +99,7 @@ async def read_users_me(user: schemas.User = Depends(get_current_user)):
     return user
 
 
-@router.post("/item/", response_model=schemas.Item,)
+@router.post("/item/", response_model=schemas.Item)
 def new_item(item: schemas.ItemCreate, user: schemas.User = Depends(get_current_user)):
     
     res = crud.new_item(item=item, user_id=user.id)
@@ -113,3 +113,9 @@ def new_item(item: schemas.ItemCreate, user: schemas.User = Depends(get_current_
 def get_items(skip: int = 0, limit: int = 100):
     items = crud.get_items(skip=skip, limit=limit)
     return items
+
+@app.put("/items/{item_id}", response_model=Item)
+async def update_item(item_id: str, item: Item):
+    update_item_encoded = jsonable_encoder(item)
+    items[item_id] = update_item_encoded
+    return update_item_encoded
