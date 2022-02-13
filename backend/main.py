@@ -7,11 +7,11 @@ from fastapi.templating import Jinja2Templates
 
 from routers import rest
 
-templates = Jinja2Templates(directory='../svelte/public/')
+templates = Jinja2Templates(directory='../frontend/public/')
 
 app = FastAPI()
 
-app.mount('/build', StaticFiles(directory='../svelte/public/build'), name='static')
+app.mount('/build', StaticFiles(directory='../frontend/public/build'), name='static')
 app.include_router(rest.router)
 
 @app.get('/')

@@ -4,5 +4,5 @@ db.db
 .env
 .venv/
 /node_modules/
-/public/build/
+/frontend/public/build/
 .DS_Store
