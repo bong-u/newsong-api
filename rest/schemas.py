@@ -17,10 +17,7 @@ class ItemBase(BaseModel):
     id : int
     name : str
     recent : int
-    image : str     
-
-class ItemCreate(ItemBase):
-    pass
+    image : str 
 
 class Item(ItemBase):
     owner_id: int

@@ -7,11 +7,11 @@ from datetime import datetime, timedelta
 from jose import JWTError, jwt
 from fastapi import Depends, FastAPI, HTTPException, status
 
-from routers import app
+from routers import rest
 
 
 app = FastAPI()
-app.include_router(auth.router)
+app.include_router(rest.router)
 
 
 if __name__ == '__main__':

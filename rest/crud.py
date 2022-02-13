@@ -40,7 +40,7 @@ def create_user(user: schemas.UserCreate):
     return db_user
 
 
-def new_item(item: schemas.ItemCreate, user_id: int):
+def new_item(item: schemas.ItemBase, user_id: int):
     db_item = models.Item(**item.dict(), owner_id=user_id)
     
     if not get_user(user_id):
@@ -53,6 +53,19 @@ def new_item(item: schemas.ItemCreate, user_id: int):
     return db_item
 
 
-def get_items(skip: int = 0, limit: int = 100):
+def get_all_items(skip: int = 0, limit: int = 100):
     return list(models.Item.select().offset(skip).limit(limit))
+
+def edit_item(item: schemas.ItemBase, user_id: int):
+    
+    db_item = models.Item.filter(models.Item.id == item.id).first()
+    
+    if not db_item:
+        return {'code': 400, 'detail':'Item does not exist'}
+    
+    db_item = models.Item(**item.dict(), owner_id=user_id)
+    db_item.save()
+    
+    return db_item
+
 
