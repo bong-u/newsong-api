@@ -3,3 +3,6 @@ __pycache__/
 db.db
 .env
 .venv/
+/node_modules/
+/public/build/
+.DS_Store
