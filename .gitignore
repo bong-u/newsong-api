@@ -1,8 +1,11 @@
 *.log
+goorm.manifest
+
+.venv/
+.env
 __pycache__/
 db.db
-.env
-.venv/
+
 /node_modules/
 /frontend/public/build/
 .DS_Store
