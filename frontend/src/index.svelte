@@ -7,12 +7,12 @@
 	.then( data => {
 		console.log(JSON.stringify(data));
 		return data;
-		
 	})
 	.catch(error => {
 		console.error(error)
 		return [];
 	});
+	
 </script>
 
 <main>

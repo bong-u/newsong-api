@@ -1,9 +1,12 @@
-import App from './App.svelte';
+import MainApp from './index.svelte';
+import AddApp from './login.svelte';
 
-const app = new App({
-	target: document.body,
-	props: {
-	}
+export const main = new MainApp({
+	target: document.getElementById('MainApp'),
+	props: {}
 });
 
-export default app;
+export const add = new AddApp({
+	target: document.getElementById('AddApp'),
+	props: {}
+});

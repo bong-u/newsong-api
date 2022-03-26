@@ -3,12 +3,20 @@ import uvicorn
 from fastapi import FastAPI, Request
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
+from fastapi.middleware.cors import CORSMiddleware
 
 from routers import rest
 
 templates = Jinja2Templates(directory='../frontend/public/')
 
 app = FastAPI()
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=['http://bongg.run.goorm.io'],
+    allow_credentials=True,
+    allow_methods=['*'],
+    allow_headers=['*'],
+)
 
 app.mount('/build', StaticFiles(directory='../frontend/public/build'), name='static')
 app.include_router(rest.router)
