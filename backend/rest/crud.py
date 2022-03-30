@@ -56,10 +56,13 @@ def new_item(item: schemas.ItemBase, user_id: int):
 def get_all_items(skip: int = 0, limit: int = 100):
     return list(models.Item.select().offset(skip).limit(limit))
 
+
 def edit_item(item: schemas.ItemBase, user_id: int):
     
     db_item = models.Item.filter(models.Item.id == item.id).first()
     
+    if not get_user(user_id):
+        return {'code': 400, 'detail':'User does not exist'}
     if not db_item:
         return {'code': 400, 'detail':'Item does not exist'}
     
@@ -67,5 +70,20 @@ def edit_item(item: schemas.ItemBase, user_id: int):
     db_item.save()
     
     return db_item
+
+
+def delete_item(item: schemas.ItemBase, user_id: int):
+    db_item = models.Item.filter(models.Item.id == item.id).first()
+    
+    if not get_user(user_id):
+        return {'code': 400, 'detail':'User does not exist'}
+    if not db_item:
+        return {'code': 400, 'detail':'Item does not exist'}
+    
+    db_item = models.Item(**item.dict(), owner_id=user_id)
+    db_item.delete_instance() 
+    
+    return db_item
+    
 
 

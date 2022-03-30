@@ -123,3 +123,13 @@ async def update_item(item: schemas.ItemBase, user: schemas.User = Depends(get_c
         raise HTTPException(status_code=res['code'], detail=res['detail'])
     
     return res
+
+@router.delete("/item/{item_id}", response_model=schemas.Item)
+async def update_item(item: schemas.ItemBase, user: schemas.User = Depends(get_current_user)):
+    
+    res = crud.delete_item(item=item, user_id=user.id)
+    
+    if not isinstance(res, models.Item):
+        raise HTTPException(status_code=res['code'], detail=res['detail'])
+    
+    return res
