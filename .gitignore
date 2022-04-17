@@ -6,6 +6,6 @@ goorm.manifest
 __pycache__/
 db.db
 
-/node_modules/
+node_modules/
 /frontend/public/build/
 .DS_Store
