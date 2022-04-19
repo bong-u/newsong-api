@@ -7,7 +7,7 @@
 	function loginProc() {
 		let formData = new FormData(document.getElementById('loginForm'));
 		
-		fetch('http://bongg.run.goorm.io/login', { method: 'POST', body : formData })
+		fetch('http://newsongg.run.goorm.io/login', { method: 'POST', body : formData })
 		.then( resp => { return resp.json(); })
 		.then( resp => {
 			if (! resp.access_token) {		//login failed
@@ -53,7 +53,7 @@
 			'image': image,
         }
 		
-		fetch('http://bongg.run.goorm.io/item', {
+		fetch('http://newsongg.run.goorm.io/item', {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
@@ -88,8 +88,13 @@
 				</div>
 			{/each}
 		</div>
+    {:else}
+        <div>Login required.</div>
 	{/if}
 </main>
 
 <style>
+    div {
+    
+    }
 </style>

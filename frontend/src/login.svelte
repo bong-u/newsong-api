@@ -15,7 +15,7 @@
 	function loginProc() {
 		let formData = new FormData(document.getElementById('loginForm'));
 		
-		fetch('http://bongg.run.goorm.io/login', { method: 'POST', body : formData })
+		fetch('http://newsongg.run.goorm.io/login', { method: 'POST', body : formData })
 		.then( resp => { return resp.json(); })
 		.then( resp => {
 			if (! resp.access_token) {		//login failed
@@ -44,13 +44,32 @@
 
 <main>
 	<form id="loginForm" on:submit|preventDefault={ loginProc }>
-	
-		<input type="text" name="username"/>
-		<input type="password" name="password"/>
-		
+	    ID
+		<input id='id' type="text" name="username"/>
+        <br/>
+        PW
+		<input id='pw' type="password" name="password"/>
+		<br/>
 		<button id="loginBtn">login</button>
 	</form>
 </main>
 
 <style>
+    form#loginForm {
+        display : flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    button#loginBtn {
+        border: none;
+        background-color: inherit;
+        width: 100px;
+        height: 50px;
+        font-size: 16px;
+        cursor: pointer;
+        display: inline-block;
+    }
+    
+    button#loginBtn:hover { animation: hover 0.5s forwards; }
+    @-webkit-keyframes hover { to {background-color: #f73c00; color:white; } }
 </style>

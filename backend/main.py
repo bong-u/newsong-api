@@ -12,7 +12,7 @@ templates = Jinja2Templates(directory='../frontend/public/')
 app = FastAPI()
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=['http://bongg.run.goorm.io'],
+    allow_origins=['http://newsongg.run.goorm.io'],
     allow_credentials=True,
     allow_methods=['*'],
     allow_headers=['*'],

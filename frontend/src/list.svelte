@@ -3,7 +3,7 @@
 	export let username = '';
 	export let token = '';
 	
-	$ : items = fetch('http://bongg.run.goorm.io/item')
+	$ : items = fetch('http://newsongg.run.goorm.io/item')
 	.then( resp => { return resp.json(); })
 	.then( resp => { return resp; })
 	.catch(error => {
@@ -27,7 +27,7 @@
 			'image': image,
         }
 		
-		fetch('http://bongg.run.goorm.io/item', {
+		fetch('http://newsongg.run.goorm.io/item', {
 			method: 'DELETE',
 			headers: {
 				'Content-Type': 'application/json',
@@ -48,7 +48,6 @@
 </script>
 
 <main>
-    <h1>REST</h1>
 	
 	{#await items}
     	<p>...Loading</p>
@@ -75,10 +74,20 @@
         padding: 1em;
         margin: 0 auto;
     }
-
-    h1 {
-        color: #ff3e00;
-        font-size: 4em;
-        font-weight: 100;
-    }
+    
+	.itemView {
+		display : flex;
+		gap: 50px;
+		flex-wrap: wrap;
+		flex-direction: row;
+	}
+	.itemView > .item > img {
+		object-fit: cover;
+		width : 100px;	
+    	height: 100px;
+	}
+	.itemView > .item > .itemName {
+		width : 100px;
+		text-align : center;
+	}
 </style>

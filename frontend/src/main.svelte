@@ -20,6 +20,10 @@
 		username = e.detail.username;
 		token = e.detail.token;
 	}
+    
+    function logout() {
+    
+    }
 	
 </script>
 
@@ -29,33 +33,48 @@
 		<button id="logoutBtn" on:click= { logout } >logout</button>
 		<br/>
 	{/if}
-	<button on:click={() => setStatus(status.LIST) }>main</button>
-	<button on:click={() => setStatus(status.ADD) }>add</button>
-	<button on:click={() => setStatus(status.LOGIN) }>login</button>
+    <div id='nav'>
+        <button class='menuBtn' on:click={() => setStatus(status.LIST) }>main</button>
+        <span>|</span>
+        <button class='menuBtn' on:click={() => setStatus(status.ADD) }>add</button>
+        <span>|</span>
+        <button class='menuBtn' on:click={() => setStatus(status.LOGIN) }>login</button>
+    </div>
 	
-	{#if current == status.LIST}
-		<ListApp logined={logined} username={username} token={token}/>
-	{:else if current == status.ADD}
-		<AddApp logined={logined} username={username} token={token}/>
-	{:else if current == status.LOGIN}
-		<LoginApp on:loginProps = { loginProps } />
-	{/if}
+    <div id='content'>
+        {#if current == status.LIST}
+            <ListApp logined={logined} username={username} token={token}/>
+        {:else if current == status.ADD}
+            <AddApp logined={logined} username={username} token={token}/>
+        {:else if current == status.LOGIN}
+            <LoginApp on:loginProps = { loginProps } />
+        {/if}
+    </div>
 </main>
 
 <style>
-	:global(.itemView) {
-		display : flex;
-		gap: 50px;
-		flex-wrap: wrap;
-		flex-direction: row;
-	}
-	:global(.itemView > .item > img) {
-		object-fit: cover;
-		width : 100px;	
-    	height: 100px;
-	}
-	:global(.itemView > .item > .itemName) {
-		width : 100px;
-		text-align : center;
-	}
+    main {
+        display : flex;
+        align-items: center;
+        flex-direction: column;
+    }
+    #nav > .menuBtn {
+        border: none;
+        background-color: inherit;
+        padding: 14px 28px;
+        font-weight : bold;
+        font-size: 16px;
+        cursor: pointer;
+        display: inline-block;
+    }
+    #nav > .menuBtn:hover { animation: hover 0.5s forwards; }
+    @-webkit-keyframes hover { to { color:#f73c00; } }
+    
+    #nav > span {
+        padding: 0 10px;
+    }
+    #content {
+        margin : 100px;
+    }
+    
 </style>
