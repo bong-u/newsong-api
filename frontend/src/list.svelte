@@ -1,6 +1,6 @@
 <script>
 	export let logined = false;
-	export let username = '';
+	//export let username = '';
 	export let token = '';
 	
 	$ : items = fetch('http://newsongg.run.goorm.io/item')
@@ -12,6 +12,10 @@
 	});
 	
 	function deleteItem(event) {
+        if (!logined) {
+            alert ('login required to delete');
+            return;
+        }
 		let flag = confirm ('Are you sure to delete this item?');
 		
 		if (!flag) return;
@@ -57,7 +61,7 @@
 			{#each items as item, index}
 				<div class="item" id={ item.id } name={ item.name } image={ item.image }>
 					<img src={ item.image } alt="" on:click={ deleteItem }/>
-					<div class='itemName'> { item.name } </div>
+					<div class='itemName'> { item.name.replace(/ \([\s\S]*?\)/g, '') } </div>
 				</div>
 			{/each}
     	</div>
@@ -75,19 +79,21 @@
         margin: 0 auto;
     }
     
-	.itemView {
+	:global(.itemView) {
 		display : flex;
 		gap: 50px;
 		flex-wrap: wrap;
 		flex-direction: row;
 	}
-	.itemView > .item > img {
+	:global(.itemView > .item > img) {
+        cursor : pointer;
 		object-fit: cover;
 		width : 100px;	
     	height: 100px;
 	}
-	.itemView > .item > .itemName {
+	:global(.itemView > .item > .itemName) {
+        font-size : 12px;
 		width : 100px;
-		text-align : center;
+		text-align : center;   
 	}
 </style>

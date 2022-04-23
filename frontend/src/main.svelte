@@ -28,11 +28,15 @@
 </script>
 
 <main>
+    <div id='greeting'>
 	{#if logined}
 		{ username } logined!
+        <span>|</span>
 		<button id="logoutBtn" on:click= { logout } >logout</button>
-		<br/>
+    {:else}
+        welcome!
 	{/if}
+    </div>
     <div id='nav'>
         <button class='menuBtn' on:click={() => setStatus(status.LIST) }>main</button>
         <span>|</span>
@@ -58,23 +62,37 @@
         align-items: center;
         flex-direction: column;
     }
+    #greeting {
+        height : 50px;
+    }
+    #greeting > button { padding : 0px; }
+    
     #nav > .menuBtn {
-        border: none;
-        background-color: inherit;
-        padding: 14px 28px;
         font-weight : bold;
-        font-size: 16px;
-        cursor: pointer;
-        display: inline-block;
     }
     #nav > .menuBtn:hover { animation: hover 0.5s forwards; }
     @-webkit-keyframes hover { to { color:#f73c00; } }
     
-    #nav > span {
+    span {
         padding: 0 10px;
     }
     #content {
-        margin : 100px;
+        margin : 50px 100px;
     }
+    
+    :global(button) {
+        border: none;
+        background-color: inherit;
+        padding: 14px 28px;
+        font-size: 16px;
+        cursor: pointer;
+        border-radius: 5px;
+    }
+    :global(input) {
+        height: 30px;
+        border: none;
+        border-bottom: 1px solid black;
+    }
+    :global(input:focus)  { outline: none; }
     
 </style>

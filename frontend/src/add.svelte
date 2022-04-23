@@ -94,7 +94,13 @@
 </main>
 
 <style>
-    div {
-    
+    #searchForm {
+        text-align: center;
     }
+    #searchForm > button {
+        margin: 20px;
+    }
+    
+   #searchForm > button:hover { animation: colortocdd 0.5s forwards; }
+    @-webkit-keyframes colortocdd { to {background-color: #cddc39; } }
 </style>
