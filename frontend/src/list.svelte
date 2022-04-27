@@ -1,6 +1,5 @@
 <script>
 	export let logined = false;
-	//export let username = '';
 	export let token = '';
 	
 	$ : items = fetch('http://newsongg.run.goorm.io/item')
@@ -85,12 +84,19 @@
 		flex-wrap: wrap;
 		flex-direction: row;
 	}
+    
 	:global(.itemView > .item > img) {
         cursor : pointer;
 		object-fit: cover;
-		width : 100px;	
-    	height: 100px;
+        width : 100px;
+        height: 100px;
 	}
+    :global(.itemView > .item > img:hover) { animation: flash 1.5s; }
+    @-webkit-keyframes -global-flash {
+        0% { opacity: .4; }
+	    100% { opacity: 1; }
+    }
+    
 	:global(.itemView > .item > .itemName) {
         font-size : 12px;
 		width : 100px;

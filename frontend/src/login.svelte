@@ -3,10 +3,9 @@
 
     const dispatch = createEventDispatcher();
 	
-	let logined = false;
+	export let logined = false;
 	let username = '';
 	let token = '';
-	let searchResult = [];
 	
 	$: (() => {
     	dispatch('loginProps', { logined, username, token })
@@ -42,21 +41,26 @@
 		logined = false;
 		token = '';
 		username = '';
-		searchResult = [];
 	}
 		
 </script>
 
 <main>
-	<form id="loginForm" on:submit|preventDefault={ loginProc }>
-	    ID
-		<input id='id' type="text" name="username"/>
-        <br/>
-        PW
-		<input id='pw' type="password" name="password"/>
-		<br/>
-		<button id="loginBtn">login</button>
-	</form>
+
+	{#if !logined}
+		
+        <form id="loginForm" on:submit|preventDefault={ loginProc }>
+            ID
+            <input id='id' type="text" name="username"/>
+            <br/>
+            PW
+            <input id='pw' type="password" name="password"/>
+            <br/>
+            <button id='loginBtn'>login</button>
+        </form>
+    {:else}
+        <button id='logoutBtn'>logout</button>
+	{/if}
 </main>
 
 <style>
@@ -65,12 +69,15 @@
         flex-direction: column;
         align-items: center;
     }
-    button#loginBtn {
-        width: 90px;
+    
+    button {
         height: 50px;
         font-size: 18px;
     }
     
-    button#loginBtn:hover { animation: colortof73 0.5s forwards; }
-    @-webkit-keyframes colortof73 { to {background-color: #f73c00; color:white; } }
+    button#loginBtn { width: 90px; }
+    button#logoutBtn { width: 100px; }
+    
+    button#loginBtn:hover { animation: hoverBtnAnim 0.5s forwards; }
+    button#logoutBtn:hover { animation: hoverBtnAnim 0.5s forwards; }
 </style>

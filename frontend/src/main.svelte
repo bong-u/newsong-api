@@ -7,6 +7,7 @@
 	Object.freeze(status);
 	
 	$ : current = status.LIST;
+    
 	$ : logined = false;
 	$ : username = '';
 	$ : token = '';
@@ -20,10 +21,6 @@
 		username = e.detail.username;
 		token = e.detail.token;
 	}
-    
-    function logout() {
-    
-    }
 	
 </script>
 
@@ -31,8 +28,6 @@
     <div id='greeting'>
 	{#if logined}
 		{ username } logined!
-        <span>|</span>
-		<button id="logoutBtn" on:click= { logout } >logout</button>
     {:else}
         welcome!
 	{/if}
@@ -47,11 +42,11 @@
 	
     <div id='content'>
         {#if current == status.LIST}
-            <ListApp logined={logined} username={username} token={token}/>
+            <ListApp logined={logined} token={token}/>
         {:else if current == status.ADD}
             <AddApp logined={logined} username={username} token={token}/>
         {:else if current == status.LOGIN}
-            <LoginApp on:loginProps = { loginProps } />
+            <LoginApp logined={logined} on:loginProps = { loginProps } />
         {/if}
     </div>
 </main>
@@ -65,17 +60,14 @@
     #greeting {
         height : 50px;
     }
-    #greeting > button { padding : 0px; }
     
     #nav > .menuBtn {
         font-weight : bold;
     }
-    #nav > .menuBtn:hover { animation: hover 0.5s forwards; }
-    @-webkit-keyframes hover { to { color:#f73c00; } }
+    #nav > .menuBtn:hover { animation: hoverTextBtnAnim 0.5s forwards; }
+    @-webkit-keyframes hoverTextBtnAnim { to { color:#f73c00; } }
     
-    span {
-        padding: 0 10px;
-    }
+    #nav > span { padding: 0 10px; }
     #content {
         margin : 50px 100px;
     }
@@ -94,5 +86,7 @@
         border-bottom: 1px solid black;
     }
     :global(input:focus)  { outline: none; }
+    
+    @-webkit-keyframes -global-hoverBtnAnim { to { background-color: #f73c00; color:white; } }
     
 </style>
