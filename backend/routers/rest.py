@@ -6,7 +6,7 @@ from jose import JWTError, jwt
 from datetime import datetime, timedelta
 from decouple import config
 
-from rest import crud, database, models, schemas
+from backend.rest import crud, database, models, schemas
 
 def get_db():
     try:

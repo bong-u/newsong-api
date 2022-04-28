@@ -6,9 +6,9 @@ from fastapi.templating import Jinja2Templates
 from fastapi.middleware.cors import CORSMiddleware
 
 from decouple import config
-from routers import rest
+from backend.routers import rest
 
-templates = Jinja2Templates(directory='../frontend/public/')
+templates = Jinja2Templates(directory='frontend/public/')
 isDebug = config('DEBUG', cast=bool)
 
 app = FastAPI()
@@ -20,7 +20,7 @@ app.add_middleware(
     allow_headers=['*'],
 )
 
-app.mount('/build', StaticFiles(directory='../frontend/public/build'), name='static')
+app.mount('/build', StaticFiles(directory='frontend/public/build'), name='static')
 app.include_router(rest.router)
 
 @app.get('/')
