@@ -114,7 +114,7 @@ def get_items(skip: int = 0, limit: int = 100):
     items = crud.get_all_items(skip=skip, limit=limit)
     return items
 
-@router.put("/item/{item_id}", response_model=schemas.Item)
+@router.put("/item/", response_model=schemas.Item)
 async def update_item(item: schemas.ItemBase, user: schemas.User = Depends(get_current_user)):
     
     res = crud.edit_item(item=item, user_id=user.id)
@@ -124,7 +124,7 @@ async def update_item(item: schemas.ItemBase, user: schemas.User = Depends(get_c
     
     return res
 
-@router.delete("/item/{item_id}", response_model=schemas.Item)
+@router.delete("/item/", response_model=schemas.Item)
 async def update_item(item: schemas.ItemBase, user: schemas.User = Depends(get_current_user)):
     
     res = crud.delete_item(item=item, user_id=user.id)
