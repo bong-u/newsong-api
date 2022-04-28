@@ -5,9 +5,11 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from fastapi.middleware.cors import CORSMiddleware
 
+from decouple import config
 from routers import rest
 
 templates = Jinja2Templates(directory='../frontend/public/')
+isDebug = config('DEBUG', cast=bool)
 
 app = FastAPI()
 app.add_middleware(
@@ -26,4 +28,4 @@ def render(request: Request):
     return templates.TemplateResponse('index.html', {'request': request})
 
 if __name__ == '__main__':
-    uvicorn.run(app, host='0.0.0.0', port=80)
+    uvicorn.run('main:app', host='0.0.0.0', port=80, reload=isDebug, debug=isDebug)
