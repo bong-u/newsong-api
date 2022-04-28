@@ -2,7 +2,7 @@
 	export let logined = false;
 	export let token = '';
 	
-	$ : items = fetch('http://newsongg.run.goorm.io/item')
+	$ : items = fetch(window.location.href + 'item')
 	.then( resp => { return resp.json(); })
 	.then( resp => { return resp; })
 	.catch(error => {
@@ -30,7 +30,7 @@
 			'image': image,
         }
 		
-		fetch('http://newsongg.run.goorm.io/item', {
+		fetch(window.location.href + 'item', {
 			method: 'DELETE',
 			headers: {
 				'Content-Type': 'application/json',

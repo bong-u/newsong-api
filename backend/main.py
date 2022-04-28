@@ -14,7 +14,7 @@ isDebug = config('DEBUG', cast=bool)
 app = FastAPI()
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=['http://newsongg.run.goorm.io'],
+    allow_origins=['http://newsongg.run.goorm.io/', 'http://rest-newsong.herokuapp.com'],
     allow_credentials=True,
     allow_methods=['*'],
     allow_headers=['*'],
