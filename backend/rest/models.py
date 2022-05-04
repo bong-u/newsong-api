@@ -15,14 +15,6 @@ class User(Base):
     is_active = Column(Boolean, default=True)
     
     items = relationship("Item", back_populates="owner")
-    
-    # username = peewee.CharField()
-    # email = peewee.CharField(unique=True, index=True)
-    # hashed_password = peewee.CharField()
-    # is_active = peewee.BooleanField(default=True)
-
-    # class Meta:
-    #     database = db
 
 
 class Item(Base):
@@ -36,12 +28,3 @@ class Item(Base):
     owner_id = Column(Integer, ForeignKey("user.id"))
     
     owner = relationship("User", back_populates="items")
-    
-    # id = peewee.IntegerField(primary_key=True, unique=True, index=True)
-    # name = peewee.CharField(index=True)
-    # recent = peewee.IntegerField()
-    # image = peewee.CharField()
-    # owner = peewee.ForeignKeyField(User, backref="items")
-
-    # class Meta:
-    #     database = db
