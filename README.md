@@ -1,6 +1,7 @@
 # rest
 
 Full stack project with REST API.
+
 It deals with singers that user likes.
 
 ## Built With
