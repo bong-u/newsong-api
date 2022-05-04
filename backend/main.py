@@ -6,7 +6,7 @@ from fastapi.templating import Jinja2Templates
 from fastapi.middleware.cors import CORSMiddleware
 
 from decouple import config
-from routers import rest
+from backend.routers import rest
 
 templates = Jinja2Templates(directory='frontend/public/')
 isDebug = config('DEBUG', cast=bool)
