@@ -1,4 +1,4 @@
-from . import models, schemas
+from backend.rest import models, schemas
 from sqlalchemy.orm import Session
 
 from fastapi import Depends

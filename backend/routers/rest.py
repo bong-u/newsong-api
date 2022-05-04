@@ -9,7 +9,7 @@ from decouple import config
 from backend.rest import crud, database, models, schemas
 
 from sqlalchemy.orm import Session
-from rest.database import SessionLocal, engine
+from backend.rest.database import SessionLocal, engine
 
 models.Base.metadata.create_all(bind=engine)
 
