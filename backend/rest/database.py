@@ -1,24 +1,21 @@
 from contextvars import ContextVar
+from decouple import config
 
-import peewee
-
-DATABASE_NAME = "db.db"
-db_state_default = {"closed": None, "conn": None, "ctx": None, "transactions": None}
-db_state = ContextVar("db_state", default=db_state_default.copy())
-
-db = peewee.SqliteDatabase(DATABASE_NAME, check_same_thread=False)
-
-# class PeeweeConnectionState(peewee._ConnectionState):
-#     def __init__(self, **kwargs):
-#         super().__setattr__("_state", db_state)
-#         super().__init__(**kwargs)
-
-#     def __setattr__(self, name, value):
-#         self._state.get()[name] = value
-
-#     def __getattr__(self, name):
-#         return self._state.get()[name]
+from sqlalchemy import create_engine
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import sessionmaker
 
 
+engine = create_engine (config('DATABASE_URL'))
+SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
-#db._state = PeeweeConnectionState()
+Base = declarative_base()
+
+# import peewee
+
+
+# DATABASE_NAME = config('DATABASE')
+# db_state_default = {"closed": None, "conn": None, "ctx": None, "transactions": None}
+# db_state = ContextVar("db_state", default=db_state_default.copy())
+
+# db = peewee.SqliteDatabase(DATABASE_NAME, check_same_thread=False)

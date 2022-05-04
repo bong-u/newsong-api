@@ -83,6 +83,7 @@
 		gap: 50px;
 		flex-wrap: wrap;
 		flex-direction: row;
+        justify-content: center;
 	}
     
 	:global(.itemView > .item > img) {

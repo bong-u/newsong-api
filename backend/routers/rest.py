@@ -6,25 +6,25 @@ from jose import JWTError, jwt
 from datetime import datetime, timedelta
 from decouple import config
 
-from backend.rest import crud, database, models, schemas
+from rest import crud, database, models, schemas
+
+from sqlalchemy.orm import Session
+from rest.database import SessionLocal, engine
+
+models.Base.metadata.create_all(bind=engine)
 
 def get_db():
+    db = SessionLocal()
     try:
-        database.db.connect()
-        yield
+        yield db
     finally:
-        if not database.db.is_closed():
-            database.db.close()
+        db.close()
             
 router = APIRouter(
     prefix='',
     tags=['auth'],
-    dependencies=[Depends(get_db)],
+    dependencies=[],
 )
-
-database.db.connect()
-database.db.create_tables([models.User, models.Item])
-database.db.close()
 
 
 SECRET_KEY = config('SECRET_KEY')
@@ -49,7 +49,7 @@ def create_access_token(data: dict):
     
     return encoded_jwt
 
-async def get_current_user(token: str = Depends(oauth2_scheme)):
+async def get_current_user(token: str = Depends(oauth2_scheme), db: Session = Depends(get_db)):
     credentials_exception = HTTPException(
         status_code=status.HTTP_401_UNAUTHORIZED,
         detail="Could not validate credentials",
@@ -65,7 +65,7 @@ async def get_current_user(token: str = Depends(oauth2_scheme)):
     except JWTError:
         raise credentials_exception
         
-    user = crud.get_user (token_data.id)
+    user = crud.get_user (db, token_data.id)
     if user is None:
         raise credentials_exception
 
@@ -73,8 +73,8 @@ async def get_current_user(token: str = Depends(oauth2_scheme)):
         
 
 @router.post("/login/", response_model=schemas.Token)
-async def login (form_data: OAuth2PasswordRequestForm = Depends()):
-    user = crud.auth_user(form_data.username, form_data.password)
+async def login (form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(get_db)):
+    user = crud.auth_user(db, form_data.username, form_data.password)
     if not user:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
@@ -86,23 +86,23 @@ async def login (form_data: OAuth2PasswordRequestForm = Depends()):
     return {'access_token': access_token, 'token_type': 'bearer'}
     
 @router.post("/signup/", response_model=schemas.User)
-def signup(new_user: schemas.UserCreate):
-    user = crud.get_user_by_email(email=new_user.email)
+def signup(new_user: schemas.UserCreate, db: Session = Depends(get_db)):
+    user = crud.get_user_by_email(db=db, email=new_user.email)
     if user:
         raise HTTPException(status_code=400, detail="Email already registered")
         
-    return crud.create_user(user=new_user)
+    return crud.create_user(db, user=new_user)
 
 
 @router.get("/user/", response_model=schemas.User)
-async def current_user(user: schemas.User = Depends(get_current_user)):
+async def current_user(user: schemas.User = Depends(get_current_user), db: Session = Depends(get_db)):
     return user
 
 
 @router.post("/item/", response_model=schemas.Item)
-def new_item(item: schemas.ItemBase, user: schemas.User = Depends(get_current_user)):
+def new_item(item: schemas.ItemBase, user: schemas.User = Depends(get_current_user), db: Session = Depends(get_db)):
     
-    res = crud.new_item(item=item, user_id=user.id)
+    res = crud.create_item(db, item=item, user_id=user.id)
     
     if not isinstance(res, models.Item):
         raise HTTPException(status_code=res['code'], detail=res['detail'])
@@ -110,14 +110,14 @@ def new_item(item: schemas.ItemBase, user: schemas.User = Depends(get_current_us
     return res
 
 @router.get("/item/", response_model=List[schemas.Item])
-def get_items(skip: int = 0, limit: int = 100):
-    items = crud.get_all_items(skip=skip, limit=limit)
+def get_items(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
+    items = crud.get_all_items(db=db, skip=skip, limit=limit)
     return items
 
 @router.put("/item/", response_model=schemas.Item)
-async def update_item(item: schemas.ItemBase, user: schemas.User = Depends(get_current_user)):
+async def update_item(item: schemas.ItemBase, user: schemas.User = Depends(get_current_user), db: Session = Depends(get_db)):
     
-    res = crud.edit_item(item=item, user_id=user.id)
+    res = crud.edit_item(db, item=item, user_id=user.id)
     
     if not isinstance(res, models.Item):
         raise HTTPException(status_code=res['code'], detail=res['detail'])
@@ -125,9 +125,9 @@ async def update_item(item: schemas.ItemBase, user: schemas.User = Depends(get_c
     return res
 
 @router.delete("/item/", response_model=schemas.Item)
-async def update_item(item: schemas.ItemBase, user: schemas.User = Depends(get_current_user)):
+async def delete_item(item: schemas.ItemBase, user: schemas.User = Depends(get_current_user), db: Session = Depends(get_db)):
     
-    res = crud.delete_item(item=item, user_id=user.id)
+    res = crud.delete_item(db, item=item, user_id=user.id)
     
     if not isinstance(res, models.Item):
         raise HTTPException(status_code=res['code'], detail=res['detail'])

@@ -1,30 +1,23 @@
 from typing import Any, List, Optional
 
-import peewee
+# import peewee
 from pydantic import BaseModel
 from pydantic.utils import GetterDict
-
-
-class PeeweeGetterDict(GetterDict):
-    def get(self, key: Any, default: Any = None):
-        res = getattr(self._obj, key, default)
-        if isinstance(res, peewee.ModelSelect):
-            return list(res)
-        return res
-
 
 class ItemBase(BaseModel):
     id : int
     name : str
     recent : int
     image : str 
+        
+class ItemCreate(ItemBase):
+    pass
 
 class Item(ItemBase):
     owner_id: int
 
     class Config:
         orm_mode = True
-        getter_dict = PeeweeGetterDict
 
 
 class UserBase(BaseModel):
@@ -41,8 +34,7 @@ class User(UserBase):
 
     class Config:
         orm_mode = True
-        getter_dict = PeeweeGetterDict
-        
+
         
 class Token(BaseModel):
     access_token: str

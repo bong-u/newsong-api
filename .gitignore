@@ -4,7 +4,6 @@ goorm.manifest
 .venv/
 .env
 __pycache__/
-db.db
 
 node_modules/
 .DS_Store
