@@ -1,4 +1,4 @@
-# rest
+# rest-newsong
 
 Full stack project with REST API.
 
