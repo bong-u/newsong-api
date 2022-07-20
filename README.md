@@ -1,8 +1,8 @@
 # newsong-api
 
-Full stack project with REST API.
-It deals with singers that user likes.
-logout didn't implemented.
+* REST API project
+
+* Manage singers that user likes.
 
 ## Built With
 
