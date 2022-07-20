@@ -1,8 +1,8 @@
 # newsong-api
 
 Full stack project with REST API.
-
 It deals with singers that user likes.
+logout didn't implemented.
 
 ## Built With
 
@@ -12,6 +12,3 @@ It deals with singers that user likes.
 ## Deploy With
 
 <img src="https://img.shields.io/badge/Heroku-79589f?style=flat-square&logo=heroku&logoColor=white"/></a>
-
-## Acknowledgments
-logout didn't implemented.
